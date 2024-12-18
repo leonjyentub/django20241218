@@ -15,7 +15,7 @@ def signup(request):
             return redirect('message_list')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'mymessages/signup.html', {'form': form})
+    return render(request, 'mymessages/signup.html', locals())
 
 def logout_view(request):
     logout(request)
