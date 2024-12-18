@@ -85,4 +85,4 @@ def edit_profile(request):
     else:
         form = UserProfileForm(instance=user)
     
-    return render(request, 'mymessages/edit_profile.html', {'form': form})
+    return render(request, 'mymessages/edit_profile.html', locals())
