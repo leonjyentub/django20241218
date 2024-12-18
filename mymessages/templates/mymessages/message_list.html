@@ -1,0 +1,44 @@
+{% extends 'mymessages/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% if user.is_authenticated %}
+                <div class="card mb-3">
+                    <div class="card-header">發表留言</div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.content }}
+                            <button type="submit" class="btn btn-primary mt-2">送出留言</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="card">
+                <div class="card-header">留言列表</div>
+                <div class="card-body">
+                    {% for message in messages_list %}
+                        <div class="border-bottom pb-3 mb-3">
+                            <p class="mb-1">{{ message.content }}</p>
+                            <small class="text-muted d-flex justify-content-between">
+                                <span>{{ message.user.username }} - {{ message.created_at|date:"Y-m-d H:i" }}</span>
+                                {% if user == message.user %}
+                                    <div>
+                                        <a href="{% url 'edit_message' message.id %}" class="btn btn-sm btn-warning">編輯</a>
+                                        <a href="{% url 'delete_message' message.id %}" class="btn btn-sm btn-danger">刪除</a>
+                                    </div>
+                                {% endif %}
+                            </small>
+                        </div>
+                    {% empty %}
+                        <p class="text-center text-muted">尚無留言</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

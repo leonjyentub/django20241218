@@ -1,0 +1,25 @@
+{% extends 'mymessages/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">確認刪除留言</div>
+                <div class="card-body">
+                    <p>您確定要刪除以下留言嗎？</p>
+                    <div class="border p-3 mb-3">
+                        <p>{{ message.content }}</p>
+                        <small class="text-muted">發表者: {{ message.user.username }} - {{ message.created_at|date:"Y-m-d H:i" }}</small>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">確定刪除</button>
+                        <a href="{% url 'message_list' %}" class="btn btn-secondary">取消</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

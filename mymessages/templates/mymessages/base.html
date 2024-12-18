@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板(管理者帳號user / user1234)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    .profile-picture {
+        width: 40px; /* 或其他適合的寬度 */
+        height: 40px; /* 或其他適合的高度 */
+        border-radius: 50%; /* 圓形圖片 */
+        margin-right: 5px; /* 右邊距 */
+    }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'message_list' %}">留言板</a>
+            <div class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                <span class="navbar-text me-3">
+                    歡迎, <a href="{% url 'edit_profile' %}">{{ user.username }}</a>
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-picture">
+                    {% else %}
+                        <img src="{% static 'default_profile_picture.png' %}" alt="Default profile picture" class="profile-picture" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 5px;">
+                    {% endif %}
+                </span>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger">登出</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">登入</a>
+                    <a href="{% url 'signup' %}" class="btn btn-primary">註冊</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

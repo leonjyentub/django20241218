@@ -1,0 +1,22 @@
+{% extends 'mymessages/base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">會員註冊</div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">註冊</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
